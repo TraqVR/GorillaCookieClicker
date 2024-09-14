@@ -22,11 +22,18 @@ namespace GorillaCookieClicker
 
         void Start()
         {
-            CookieParticles = GameObject.Find("GorillaCookieClicker(Clone)/parent/cookieclicker/ClickParticle").GetComponent<ParticleSystem>();
-            ClicksText = GameObject.Find("GorillaCookieClicker(Clone)/parent/Page0/Backround3/ClickCount").GetComponent<TMP_Text>();
-            MultiplierText = GameObject.Find("GorillaCookieClicker(Clone)/parent/Page0/Backround4/Multipliers").GetComponent<TMP_Text>();
-            PrestigesText = GameObject.Find("GorillaCookieClicker(Clone)/parent/Page0/Backround5/Prestiges").GetComponent<TMP_Text>();
+            Cookies = PlayerPrefs.GetInt("Cookies", 0);
+            Multipier = PlayerPrefs.GetInt("Multiplier", 1);
+            Prestiges = PlayerPrefs.GetInt("Multiplier", 0);
+
+            CookieParticles = Plugin.GorillaCookieClicker.transform.Find("parent/cookieclicker/ClickParticle").GetComponent<ParticleSystem>();
+            ClicksText = Plugin.GorillaCookieClicker.transform.Find("parent/Page0/Backround3/ClickCount").GetComponent<TMP_Text>();
+            MultiplierText = Plugin.GorillaCookieClicker.transform.Find("parent/Page0/Backround4/Multipliers").GetComponent<TMP_Text>();
+            PrestigesText = Plugin.GorillaCookieClicker.transform.Find("parent/Page0/Backround5/Prestiges").GetComponent<TMP_Text>();
+
+            StartCoroutine(CookieClick());
         }
+
         public void OnTriggerEnter(Collider other)
         {
             if (CanClick)
@@ -80,9 +87,12 @@ namespace GorillaCookieClicker
 
         public void UpdateText()
         {
-           ClicksText.text = "Cookies: " + Cookies.ToString();
-           MultiplierText.text = "Multipier: " + Multipier.ToString();
-           PrestigesText.text = "Prestiges: " + Prestiges.ToString();
+            ClicksText.text = "Cookies: " + Cookies.ToString();
+            MultiplierText.text = "Multipier: " + Multipier.ToString();
+            PrestigesText.text = "Prestiges: " + Prestiges.ToString();
+            PlayerPrefs.SetInt("Cookies", Cookies);
+            PlayerPrefs.SetInt("Multiplier", Multipier);
+            PlayerPrefs.SetInt("Prestiges", Prestiges);
         }
     }
 }
